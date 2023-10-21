@@ -87,6 +87,7 @@ class MCP9808
             tAmbient;       // ambient temperature, in units of 1/16 °C
 
         uint16_t
+			read_ambient(),
             config,         // configuration register
             mfrID;          // manufacturer ID
             

@@ -20,6 +20,21 @@ uint8_t MCP9808::begin(twiClockFreq_t twiFreq)
     return read();
 }
 
+uint16_t MCP9808::read_ambient()
+{
+	uint8_t e = 0;
+	Wire.beginTransmission(m_devAddr);
+	Wire.write(0x05);
+	if ( (e = Wire.endTransmission(true)) != 0 ) return e;
+	Wire.requestFrom(m_devAddr, (uint8_t)2);
+	
+	uint8_t msb = Wire.read();
+	uint8_t lsb = Wire.read();
+	
+	tAmbient  = (((int16_t)msb << 11) + ((int16_t)lsb << 3)) >> 3;
+	return tAmbient;
+}
+
 // read all registers from the sensor.
 // device does not support sequential access, so must read one register at a time :-|
 // returns the I2C status (zero if successful). 
